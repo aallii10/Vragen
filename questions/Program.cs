@@ -8,53 +8,60 @@ namespace questions
     {
         static void Main(string[] args)
         {
-            IList<Vragen> vraagArray = new List<Vragen>(){
 
-                new Vragen() {Vraag = "sadsasa", Antwoord = "", MoeilijkheidsGraad = "1", Categorie = ""},
-                new Vragen() {Vraag = "sadfdvcx", Antwoord = "", MoeilijkheidsGraad = "2", Categorie = ""},
-                new Vragen() {Vraag = "3243", Antwoord = "", MoeilijkheidsGraad = "3", Categorie = ""},
-                new Vragen() {Vraag = "yhytjthg", Antwoord = "", MoeilijkheidsGraad = "1", Categorie = ""},
-                new Vragen() {Vraag = "adqwsad", Antwoord = "", MoeilijkheidsGraad = "2", Categorie = ""}
+            
+            
+                IList<Vragen> vraagArray = new List<Vragen>(){
+
+                new Vragen() {Vraag = "1 + 1", Antwoord = "2", MoeilijkheidsGraad = "1", Categorie = "rekenen"},
+                new Vragen() {Vraag = "welke kleur heeft een dolfijn", Antwoord = "blauw", MoeilijkheidsGraad = "1", Categorie = "kleuren"},
+                new Vragen() {Vraag = "3 + 2", Antwoord = "5", MoeilijkheidsGraad = "3", Categorie = "rekenen"},
+                new Vragen() {Vraag = "8 + 1", Antwoord = "9", MoeilijkheidsGraad = "1", Categorie = "rekenen"},
+                new Vragen() {Vraag = "welke kleur heeft een schildpad", Antwoord = "groen", MoeilijkheidsGraad = "2", Categorie = "kleuren"}
             };
 
+                
+            
 
             //Vragen vragens = vraagArray.Where(v => v.MoeilijkheidsGraad == "2").FirstOrDefault();
 
-         
 
-           /* foreach(var v in result)
-            {
-                Console.WriteLine(v.Vraag);
-            }*/
-
-
+            var result = from v in vraagArray
+                         where v.MoeilijkheidsGraad.Equals("1")
+                         select v;
+        
+            
             
 
-            //Console.WriteLine("Kies een moeilijkheidsgraad: 1, 2, 3");
+            Console.WriteLine("kies een Categorie: rekenen(1) of kleuren(2)");
+            string categorieKeuze = Console.ReadLine();
+            
 
-            string read = Console.ReadLine();
-
-            if(read.Equals("1"))
+            if (categorieKeuze.Equals("1") || categorieKeuze.Equals("2"))
             {
-                var result = from v in vraagArray
-                             where v.MoeilijkheidsGraad.Equals("1")
-                             select v;
+                var gefilterdeVragenCategorie = from v in vraagArray where v.Categorie.Equals(categorieKeuze) select v;
 
-                Console.WriteLine(result.v.Vraag);
-            }
+                Console.WriteLine("Kies een moeilijkheidsgraad: 1, 2, 3");
+                string mgKeuze = Console.ReadLine();
 
-            else if (read.Equals("2"))
-            {
-                Console.WriteLine("");
-            }
+                if (mgKeuze.Equals("1") || mgKeuze.Equals("2") || mgKeuze.Equals("3"))
+                {
+                    var gefilterdeVragenMoeilijkheidsGraad = from v in vraagArray where v.MoeilijkheidsGraad.Equals(mgKeuze) select v;
 
-            else if (read.Equals("3"))
-            {
-                Console.WriteLine("");
-            }
-            else
-            {
-                Console.WriteLine("deze moeilijkheidsgraad bestaat niet.");
+                     foreach(var v in gefilterdeVragenMoeilijkheidsGraad)
+                     {
+                        v.Display();
+                        string input = Console.ReadLine();
+                        bool x = v.CheckAntwoord(input);
+                        v.GedragAntwoord(x);
+
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine("deze moeilijkheidsgraad bestaat niet.");
+                }
             }
 
 
